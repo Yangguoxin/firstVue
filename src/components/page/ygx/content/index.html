@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  var query = decodeURIComponent(window.location.href).split('?')[1]
+  query = query ? '?' + query : ''
+  window.location.replace('https://h5.blackfish.cn/fsh-line/orderList.html' + query)
+</script>
+</body>
+</html>
