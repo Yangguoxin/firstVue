@@ -5,7 +5,7 @@
     </transition>
     <!--skeleton测试-->
     <div class="skeleton-c" action="http://www.baidu.com"></div>
-    <button class="btn-click" @click="routerTest">点击测试</button>
+    <button class="btn-click" @click="routerTest">点击测试{{mixinRes}}</button>
     <div class="border-test" ref="preInput" @click="openInput"></div>
     <input class="input-view" v-if="ishow" v-focus="ishow"/>
     <div @click.stop="preViewHandle" class="loading-img"></div>
@@ -39,6 +39,8 @@
     </div>
     <!--三角形-->
     <div class="trangle"></div>
+    <!--canvas裁剪的图片-->
+    <img class="img-container" :src="imgUrl"/>
     <baidu-map class="bm-view" :center="pointL" :zoom="20" :scroll-wheel-zoom="true">
       <bm-label v-if="positionL.lat" content="我" :position="positionL" :labelStyle="{color: 'red', fontSize : '24px'}" title="Hover me"/>
     </baidu-map>
@@ -51,7 +53,11 @@
   import * as xiaohong from '../js/test'
   let newTest = () => require('../js/test')
   import { preView } from '../js/preView'
+  import fMixins from '../mixins/firstMixins'
+  import ajax from '../../../../util/ajax/index'
+  import { loadingImg } from '../../../../util/canvas/index'
   export default {
+    mixins: [fMixins],
     name: 'first',
     components: {
     },
@@ -59,11 +65,14 @@
       return {
         ishow: true,
         pointL: {lng: 118.77807441, lat: 32.0572355},
-        positionL: {lng: 0, lat: 0}
+        positionL: {lng: 0, lat: 0},
+        imgUrl: ''
       }
     },
     methods: {
       routerTest () {
+        this.$Toast.open({text: '我不是默认文字'})
+        this.test()
         console.log(this.positionL)
         // this.$router.push({
         //   path: '/submit/ygx'
@@ -112,11 +121,44 @@
             resolve('promise3')
           }, 3000)
         })
+      },
+      test() {
+        let data = {
+          baseId: '1247087'
+        }
+        let postData = {
+          data: {baseId: '1247087'},
+          url: 'http://10.32.16.34:10300/ioi-web/fsh/ioi/shop/searchShopQq',
+          method: 'POST',
+          sync: true,
+          success: (res) => {
+            console.log('数据回调', res)
+          }
+        }
+        ajax(postData)
+        fetch('http://10.32.16.34:10300/ioi-web/fsh/ioi/shop/searchShopQq', {
+          body: JSON.stringify(data), // must match 'Content-Type' header
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, same-origin, *omit
+          headers: {
+            'user-agent': 'Mozilla/4.0 MDN Example',
+            'content-type': 'application/json'
+          },
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, cors, *same-origin
+          redirect: 'follow', // manual, *follow, error
+          referrer: 'no-referrer', // *client, no-referrer
+        }).then(res => res.json()).then((res) => {
+          console.log(res)
+        })
       }
     },
     computed: {
       nickName() {
         return decodeURIComponent(`test`)
+      },
+      mixinRes() {
+        return this.mA + this.mB
       }
     },
     created() {
@@ -130,6 +172,9 @@
       }, 3000)
       this.promise3().then(this.promise1).then(this.promise2).then((res) => {
         console.log(res)
+      })
+      loadingImg('https://ww3.sinaimg.cn/bmiddle/61e7f4aaly1g5hq7v8lf2j213l0m3kjl.jpg').then((res) => {
+        this.imgUrl = res
       })
     },
     mounted () {
@@ -299,5 +344,9 @@
     height: 0.4rem;
     background: black;
     opacity: 0.5;
+  }
+  .img-container {
+    width: 1rem;
+    height: 1rem;
   }
 </style>
