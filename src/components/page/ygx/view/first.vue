@@ -32,10 +32,13 @@
       <div class="float-item"></div>
       <div class="float-text">我爱神的箭静安寺简单介绍</div>
     </div>
-    <div>就爱代驾嗲几点几点傲娇地阿娇嗲就嗲的旧爱就嗲几点地阿娇的安静点地阿娇的安静点安静点爱就嗲极低</div>
+    <div v-html="testEnter"></div>
     <!--盒子模型-->
     <div class="box-c">
       <div class="box-item"></div>
+    </div>
+    <div class="mid-c">
+      <div class="mid">A</div>
     </div>
     <!--三角形-->
     <div class="trangle"></div>
@@ -56,6 +59,7 @@
   import fMixins from '../mixins/firstMixins'
   import ajax from '../../../../util/ajax/index'
   import { loadingImg } from '../../../../util/canvas/index'
+  import JSONP from '../../../../util/jsonp/index'
   export default {
     mixins: [fMixins],
     name: 'first',
@@ -66,13 +70,15 @@
         ishow: true,
         pointL: {lng: 118.77807441, lat: 32.0572355},
         positionL: {lng: 0, lat: 0},
-        imgUrl: ''
+        imgUrl: '',
+        testEnter: '1232131<br>llllllsdadasldaldla'
       }
     },
     methods: {
       routerTest () {
         this.$Toast.open({text: '我不是默认文字'})
         this.test()
+        window.location.replace(`${window.location.href}#123`)
         console.log(this.positionL)
         // this.$router.push({
         //   path: '/submit/ygx'
@@ -127,7 +133,7 @@
           baseId: '1247087'
         }
         let postData = {
-          data: {baseId: '1247087'},
+          data: JSON.stringify({baseId: '1247087'}),
           url: 'http://10.32.16.34:10300/ioi-web/fsh/ioi/shop/searchShopQq',
           method: 'POST',
           sync: true,
@@ -135,22 +141,30 @@
             console.log('数据回调', res)
           }
         }
-        ajax(postData)
-        fetch('http://10.32.16.34:10300/ioi-web/fsh/ioi/shop/searchShopQq', {
-          body: JSON.stringify(data), // must match 'Content-Type' header
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: 'same-origin', // include, same-origin, *omit
-          headers: {
-            'user-agent': 'Mozilla/4.0 MDN Example',
-            'content-type': 'application/json'
-          },
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-          mode: 'cors', // no-cors, cors, *same-origin
-          redirect: 'follow', // manual, *follow, error
-          referrer: 'no-referrer', // *client, no-referrer
-        }).then(res => res.json()).then((res) => {
-          console.log(res)
-        })
+        let jsonpData = {
+          url: 'http://10.11.32.230:7001/test',
+          data: {baseId: '1247087'},
+          callback: (data) => {
+            console.log(data)
+          }
+        }
+        JSONP(jsonpData)
+        // ajax(postData)
+        // fetch('http://10.32.16.34:10300/ioi-web/fsh/ioi/shop/searchShopQq', {
+        //   body: JSON.stringify(data), // must match 'Content-Type' header
+        //   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //   credentials: 'same-origin', // include, same-origin, *omit
+        //   headers: {
+        //     'user-agent': 'Mozilla/4.0 MDN Example',
+        //     'content-type': 'application/json'
+        //   },
+        //   method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        //   mode: 'cors', // no-cors, cors, *same-origin
+        //   redirect: 'follow', // manual, *follow, error
+        //   referrer: 'no-referrer', // *client, no-referrer
+        // }).then(res => res.json()).then((res) => {
+        //   console.log(res)
+        // })
       }
     },
     computed: {
@@ -348,5 +362,26 @@
   .img-container {
     width: 1rem;
     height: 1rem;
+  }
+  .mid {
+    width: calc(100vw - 20px);
+    height: calc(50vw - 10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: darkorange;
+    font-size: 20px;
+  }
+  .mid-c {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .iframe-css {
+    width: 3.75rem;
+    border-radius: 0.2rem;
+    border: none;
   }
 </style>

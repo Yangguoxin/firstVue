@@ -1182,3 +1182,634 @@ function closer () {
   }
   return fn
 }
+
+/*********************判断数据是函数还是对象************************/
+let test = function () {
+  console.log('12232131')
+}
+let arr = []
+let obj = {}
+typeof arr
+arr.toString()
+obj.toString()
+
+/*************深拷贝******************/
+function deepCopy (obj) {
+  if (typeof obj !== 'object') {
+    return obj
+  }
+  let tmp = obj.toString() === '[object Object]' ? {} : []
+  for(let key in obj) {
+    tmp[key] = typeof obj[key] === 'object' ? deepCopy(obj[key]) : obj[key]
+  }
+  return tmp
+}
+/*******************深拷贝********************/
+function deepCopy (obj) {
+  if (typeof obj === 'object') {
+    let tmp = obj.toString() === '[object Object]' ? {} : []
+    for(let key in obj) {
+      tmp[key] = typeof obj[key] === 'string' ? obj[key] : deepCopy(obj[key])
+    }
+    return tmp
+  } else {
+    return obj
+  }
+}
+let url = `${MOD_ORDER_URL}/product/productDetail?productId=${productId}&bf_ai=${bf_ai}&hideNavigation=1&__bf_params=${encodeURIComponent(JSON.stringify({
+  token: 'aaaaaaaaaaaaa',
+  phoneNumber: 'bbbbbbbbbbbbb'
+}))}`
+/******************************************/
+function test () {
+  if ([]==false) {console.log('1111')}
+  if ({}==false) {console.log('2222')}
+  if ([]) {console.log('3333')}
+  if ([1]==[2]) {console.log('4444')}
+  [].slice.call(arguments, 0)
+  [].slice.apply(arguments, [0])
+  Array.slice.call(arguments, 0)
+  Array.from(arguments)
+  [...arguments]
+}
+if(JSON.stringify([1]) === JSON.stringify([1])){console.log(111111)}
+
+/************************************arguments*********************/
+function a () {
+  for (var i = 0; i < 5; i++) {
+    this.i = i
+    setTimeout((function () {
+      console.log(this.i)
+    }).bind({i: i}), 0)
+    console.log(this.i)
+  }
+}
+/***********************前端路由测试**************************/
+function urlHistry () {
+  console.log(window.location.href)
+  window.location.href = '../'
+}
+
+/******************对象中的函数执行和函数定义*******************/
+function callback(res) {
+  console.log('回调函数执行')
+}
+let name = `id_${(new Date()).getTime()}_${Math.random().toString().substr(2)}`
+window[name] = function (res) {
+  // 执行这个函数后，要销毁这个函数
+  window[name] = undefined
+  // 执行传入的的函数
+  callback && typeof callback === 'function' && callback(res)
+}
+
+/*******************apply使用********************/
+function test () {
+  console.log(this.a)
+  console.log([...arguments])
+}
+
+function fun () {
+  test.Myapply({a:1}, arguments)
+}
+
+/*****************apply实现********************/
+Function.prototype.Myapply = function (obj, arr) {
+  obj = obj || window
+  obj.fn = this
+  let res
+  if ([...arr].length < 0) {
+    res = obj.fn()
+  } else {
+    res = obj.fn(...arr)
+  }
+  delete obj.fn
+  return res
+}
+
+/***********实现深拷贝***************/
+function deepCopy (obj) {
+  if (typeof obj !== 'object') {
+    return obj
+  }
+  let tmpObj = obj.toString() === '[object Object]' ? {} : []
+  for (let key in obj) {
+    tmpObj[key] = typeof obj[key] === 'object' ? deepCopy(obj[key]) : obj[key]
+  }
+  return tmpObj
+}
+
+/********函数工厂********/
+function Mynew () {
+  let obj = new Object()
+  let fn = [].shift.call(arguments)
+  obj.__proto__ = fn.prototype
+  let res = fn.apply(obj, arguments)
+  return typeof res === 'object' ? res : obj
+}
+
+/*******bind*********/
+Function.prototype.Mybind = function () {
+  let fn = this
+  let obj = [].shift.call(arguments)
+  let args = [...arguments]
+  let ret = function () {
+    fn.apply(this instanceof ret ? this : obj, args.concat([...arguments]) )
+  }
+  return ret
+}
+
+let a = {
+  name: 'xiaxia',
+  fun: function () {
+    console.log(this.name)
+  }
+}
+
+/**************对象原型和原型链****************/
+function Person () {
+  this.a = '123'
+  this.b = '234'
+}
+Person.prototype.age = 123
+Person.prototype.fun = function () {
+  console.log(this.a, this.b, this.age)
+}
+
+let xiaomin = new Person()
+
+function Son () {
+  this.eye = 222
+  Person.apply(this, arguments)
+}
+
+Son.prototype = new Person()
+
+let xiaoxiao = new Son()
+
+/***************new实现*****************/
+function myNew () {
+  let fn = [].shift.call(arguments)
+  let obj = new Object()
+  obj.__proto__ = fn.prototype
+  let ret = fn.apply(obj, arguments)
+  return typeof ret === 'object' ? ret : obj
+}
+
+function a () {
+  for (var i = 0; i < 5; i++) {
+    this.i = i
+    setTimeout((function () {
+      console.log(this.i)
+    }).bind({i: i}), 0)
+    console.log(this.i)
+  }
+}
+
+/***********************单例模式实现***************************/
+var bindEvent = (function(){
+  function() {
+    document.body.addEventListener('click', function (e) {
+      console.log('1234')
+    }, false)
+  }
+})()
+var render = function(){
+    console.log( '开始渲染列表' )
+    bindEvent()
+}
+render()
+
+function singleFun (fn) {
+  var result = null
+  return function () {
+    if (result) {
+      return
+    }
+    result = fn.apply(this, arguments)
+  }
+}
+
+
+/**********************表单检验*************************/
+/*****算法类******/
+var calculate = {
+  add: function (value, msg) {
+    if (value === 1) {
+      return msg
+    }
+  },
+  name: function (value, name, msg) {
+    if (value < 10) {
+      return msg
+    }
+  }
+}
+
+function Valuate () {
+  this.cache = []
+}
+
+Valuate.prototype.add = function ( dom, value, msg) {
+  this.cache.push(function () {
+    let runNameArray = name.split(':')
+    let runName = runNameArray.shift()
+    runNameArray.unshift(value)
+    runNameArray.push(msg)
+    return calculate[runName].apply(dom, runNameArray)
+  })
+}
+
+/*****************************缓存代理*************************/
+var cachePorxy = (function () {
+  let cache = []
+  return function () {
+    let args = Array.prototype.join.call(arguments, ',')
+    if (cache[args]) {
+      return cache[args]
+    }
+    return cache[args] = multFun.apply(this, arguments)
+  }
+})()
+
+function multFun () {
+  let res = 1
+  for (var i = 1, value = arguments.length;i < value; i++) {
+    res = arguments[i] * res
+  }
+  return res
+}
+
+/**********************发布订阅模式***********************/
+
+var event = {
+  eventList: [],
+  listen: function (key, fn) {
+    if (!this.eventList[key]) {
+      this.eventList[key] = []
+    }
+    this.eventList[key].push(fn)
+  },
+  run: function () {
+    let key = Array.prototype.shift.call(arguments)
+    if (!this.eventList[key]) {
+      return
+    }
+    for (var i = 0, value; value = this.eventList[key][i++];) {
+      value.apply(this, arguments)
+    }
+  },
+  remove: function (key, fn) {
+    let fns = this.eventList[key]
+    if (!fns) {
+      return
+    }
+    if (!key) {
+      this.eventList && (this.eventList.length = 0)
+      return
+    }
+    for (var i = 0,l = fns.length; i < l-1; i++) {
+      if (fn === fns[i]) {
+        fns.splice(i, 1)
+      }
+    }
+  }
+}
+
+event.listen('tab', function (res) {
+  console.log(res)
+})
+
+event.run('tab', 123)
+
+/********************正则表达转换*********************/
+var event = (function () {
+  let eventList = []
+  let listen = function (key, fn) {
+    if (!event.eventList[key]) {
+      event.eventList[key] = []
+    }
+    event.eventList[key].push(fn)
+  }
+  let runEvent = function () {
+    let key = Array.prototype.shift.apply(arguments)
+    if (!event.eventList[key]) {
+      return
+    }
+    for (var i = 0, value; value = event.eventList[key][i++];) {
+      value.apply(this, arguments)
+    }
+  }
+  let remove = function (key, fn) {
+    if (!event.eventList[key]) {
+      return
+    }
+    if (!fn) {
+      event.eventList[key].length = 0
+    }
+    for (var i = 0, value; value = event.eventList[key][i++];) {
+      if (value === fn) {
+        event.eventList[key].splice(i, 1)
+      }
+    }
+  }
+  return {
+    listen: listen,
+    runEvent: runEvent,
+    remove: remove
+  }
+})()
+
+/*******************coffee OR tea********************/
+var Beverage = function () {
+
+}
+Beverage.prototype.boilWater = function () {
+  console.log('必须重写boilWater方法')
+}
+Beverage.prototype.braw = function () {
+  console.log('必须重写braw方法')
+}
+Beverage.prototype.pourInCup = function () {
+  console.log('必须重写pourInCup方法')
+}
+Beverage.prototype.addCondiments = function () {
+  console.log('必须重写addCondiments方法')
+}
+Beverage.prototype.do = function () {
+  this.boilWater()
+  this.braw()
+  this.pourInCup()
+  this.addCondiments()
+}
+
+function Coffee () {
+}
+Coffee.prototype = new Beverage()
+
+Coffee.prototype.boilWater = function () {
+  console.log('煮沸水')
+}
+
+Coffee.prototype.braw = function () {
+  console.log('放入咖啡')
+}
+
+Coffee.prototype.pourInCup = function () {
+  console.log('开水倒入杯中')
+}
+
+Coffee.prototype.addCondiments = function () {
+  console.log('加入牛奶和方糖')
+}
+
+/***************职责链模式*****************/
+function fun1 (a) {
+  console.log('进入我是函数1')
+  if (a > 10 && a <= 20) {
+    console.log('我是函数1，我处理了', a)
+    return a
+  }
+  console.log('我是函数1，我处理不了', a)
+  this.next(a)
+}
+
+function fun2 (a) {
+  console.log('进入我是函数2')
+  if (a > 20 && a <= 30) {
+    console.log('我是函数2，我处理了', a)
+    return a
+  }
+  setTimeout(() => {
+    this.next(a)
+  }, 2000)
+  console.log('我是函数2，我处理不了', a)
+}
+
+function fun3 (a) {
+  console.log('进入我是函数3')
+  if (a > 30 && a < 40) {
+    console.log('我是函数3，我处理了', a)
+    return a
+  }
+  console.log('我是函数3，我处理不了', a)
+}
+
+function Chain (fn) {
+  this.fn = fn
+  this.successFun = null
+}
+
+Chain.prototype.passRequest = function () {
+  let ret = this.fn.apply(this, arguments)
+  return ret
+}
+
+Chain.prototype.setNextSuccessor = function (nextFun) {
+  return this.successFun = nextFun
+}
+
+Chain.prototype.next = function () {
+  return this.successFun && this.successFun.passRequest.apply(this.successFun, arguments)
+}
+
+let testChain1 = new Chain(fun1)
+
+let testChain2 = new Chain(fun2)
+
+let testChain3 = new Chain(fun3)
+
+testChain1.setNextSuccessor(testChain2).setNextSuccessor(testChain3)
+
+/**********************泡泡堂************************/
+function Player (name, teamName) {
+  this.name = name
+  this.teamName = teamName
+  this.status = 'alive'
+}
+
+Player.prototype.win = function () {
+  console.log(this.name, 'win')
+}
+
+Player.prototype.lose = function () {
+  console.log(this.name, 'lose')
+}
+
+Player.prototype.die = function () {
+  this.status = 'dead'
+  playerDirector.reciveMessage('playerDead', this)
+}
+
+Player.prototype.remove = function () {
+  playerDirector.reciveMessage('removePlayer', this)
+}
+
+Player.prototype.changeTeam = function (newName) {
+  playerDirector.reciveMessage('changeTeam', this, newName)
+}
+
+function playerFactory (name, teamName) {
+  var newPlayer = new Player(name, teamName)
+  playerDirector.reciveMessage('addPlayer', newPlayer)
+  return newPlayer
+}
+
+var playerDirector = (function () {
+  var players = {}
+  var operations = {}
+  operations.addPlayer = function (player) {
+    var teamName = player.teamName
+    players[teamName] = players[teamName] || []
+    players[teamName].push(player)
+  }
+  operations.removePlayer = function (player) {
+    var teamName = player.teamName
+    players[teamName] = players[teamName] || []
+    for (var i = 0; i < players[teamName].length; i++) {
+      if (players[teamName][i] === player) {
+        players[teamName].splice(i, 1)
+      }
+    }
+  }
+  operations.changeTeam = function (player, newName) {
+    operations.removePlayer(player)
+    player.teamName = newName
+    operations.addPlayer(player)
+  }
+  operations.playerDead = function (player) {
+    var teamName = player.teamName
+    var teamPlayers = players[teamName]
+    var allDead = true
+    player.status = 'dead'
+    for (let i = 0; i < teamPlayers.length; i++) {
+      if (teamPlayers[i].status !== 'dead') {
+        allDead = false
+        break
+      }
+    }
+    if (allDead) {
+      for (let i = 0; i < teamPlayers.length; i++) {
+        teamPlayers[i].lose.apply(teamPlayers[i], arguments)
+      }
+      for (let i in players) {
+        for (let j = 0; j < players[i].length; j++) {
+          if (i !== teamName) {
+            players[i][j].win.apply(players[i][j], arguments)
+          }
+        }
+      }
+    }
+  }
+
+  var reciveMessage = function () {
+    let key = Array.prototype.shift.apply(arguments)
+    operations[key].apply(this, arguments)
+  }
+
+  return {
+    reciveMessage: reciveMessage
+  }
+})()
+
+var player1 = playerFactory('小明', 'red'),
+  player2 = playerFactory('小华', 'red'),
+  player3 = playerFactory('小蓝', 'blue'),
+  player4 = playerFactory('小松', 'blue')
+
+/**********************状态机模式*************************/
+/******先定义状态类********/
+
+function offStatus (light) {
+  this.light = light
+}
+
+offStatus.prototype.buttonPress = function () {
+  console.log('关灯状态')
+  this.light.setStatus(this.light.weakStatus)
+}
+
+function weakStatus (light) {
+  this.light = light
+}
+weakStatus.prototype.buttonPress = function () {
+  console.log('弱光状态')
+  this.light.setStatus(this.light.strongStatus)
+}
+
+function strongStatus (light) {
+  this.light = light
+}
+strongStatus.prototype.buttonPress = function () {
+  console.log('强光状态')
+  this.light.setStatus(this.light.superStatus)
+}
+function superStatus (light) {
+  this.light = light
+}
+superStatus.prototype.buttonPress = function () {
+  console.log('超级强光')
+  this.light.setStatus(this.light.offStatus)
+}
+
+function Light () {
+}
+
+Light.prototype.setStatus = function (status) {
+  this.currentStatus = status
+}
+
+Light.prototype.init = function () {
+  this.offStatus = new offStatus(this)
+  this.weakStatus = new weakStatus(this)
+  this.strongStatus = new strongStatus(this)
+  this.superStatus = new superStatus(this)
+  this.currentStatus = this.offStatus
+}
+
+Light.prototype.run = function () {
+  this.currentStatus.buttonPress()
+}
+
+/********************************正则************************************/
+
+let reg = new RegExp('(,\\s)', 'g')
+let str = '  apple, orange, cherry, peach.  '
+let count = 0
+reg.test(str)
+str.match(reg)
+str = str.replace(reg, function () {
+  count++
+  return count === 2 ? '8' : ','
+})
+let str = '  apple, orange, cherry, peach.  '
+str = str.replace(/(^\s+)|(\s+$)/, '')
+
+let str = '  apple, orange, cherry, peach.  '
+let count = 0
+str.match(/(,\s)/g)
+str = str.replace(/(,\s)/g, function () {
+  count++
+  return count === 2 ? '8' : ','
+})
+
+/******************正则对象的定义方式**********************/
+let str = ' abcd, sss, 333, 444  '
+str = str.replace(/(^\s{1,})|(\s{1,}$)/g, '')
+
+let str = ' abcd, sss, 333, 444  '
+let reg = new RegExp('(^\\s+)|(\\s+$)', 'g')
+str = str.replace(reg, '')
+
+let str = ' abcd, sss, 333, 444 '
+let reg = /(^\s+)|(\s+$)/g
+let reg1 = /(,\s)/g
+let count = 0
+let matches = str.match(reg1)
+console.log(matches)
+str = str.replace(reg, '').replace(reg1, function () {
+  count++
+  if (count >= 2) {
+    return '.'
+  }
+  return '||'
+})
