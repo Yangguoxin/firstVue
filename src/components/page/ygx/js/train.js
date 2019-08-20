@@ -1804,7 +1804,11 @@ let str = ' abcd, sss, 333, 444 '
 let reg = /(^\s+)|(\s+$)/g
 let reg1 = /(,\s)/g
 let count = 0
-let matches = str.match(reg1)
+let matches = str.matchAll(reg1)
+for (let item of matches) {
+  console.log(item)
+}
+
 console.log(matches)
 str = str.replace(reg, '').replace(reg1, function () {
   count++
@@ -1813,3 +1817,14 @@ str = str.replace(reg, '').replace(reg1, function () {
   }
   return '||'
 })
+
+/****************yield*******************/
+function* ta() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+for (let item of ta()) {
+  console.log(item)
+}

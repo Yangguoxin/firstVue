@@ -5,7 +5,9 @@
     </transition>
     <!--skeleton测试-->
     <div class="skeleton-c" action="http://www.baidu.com"></div>
-    <button class="btn-click" @click="routerTest">点击测试{{mixinRes}}</button>
+    <div class="btn-c">
+      <button v-if="buttonFlag" class="btn-click" :class="animationCss" @click="routerTest">点击测试{{mixinRes}}</button>
+    </div>
     <div class="border-test" ref="preInput" @click="openInput"></div>
     <input class="input-view" v-if="ishow" v-focus="ishow"/>
     <div @click.stop="preViewHandle" class="loading-img"></div>
@@ -47,6 +49,7 @@
     <baidu-map class="bm-view" :center="pointL" :zoom="20" :scroll-wheel-zoom="true">
       <bm-label v-if="positionL.lat" content="我" :position="positionL" :labelStyle="{color: 'red', fontSize : '24px'}" title="Hover me"/>
     </baidu-map>
+    <div class="energy-c"></div>
   </div>
 </template>
 
@@ -71,7 +74,9 @@
         pointL: {lng: 118.77807441, lat: 32.0572355},
         positionL: {lng: 0, lat: 0},
         imgUrl: '',
-        testEnter: '1232131<br>llllllsdadasldaldla'
+        testEnter: '1232131<br>llllllsdadasldaldla',
+        buttonFlag: false,
+        animationCss: 'enter'
       }
     },
     methods: {
@@ -183,7 +188,14 @@
         // setTimeout(() => {
         //   this.$messageBox.close()
         // }, 2000)
+        this.buttonFlag = true
       }, 3000)
+      setTimeout(() => {
+        this.animationCss = 'out'
+        setTimeout(() => {
+          this.buttonFlag = false
+        }, 500)
+      }, 5000)
       this.promise3().then(this.promise1).then(this.promise2).then((res) => {
         console.log(res)
       })
@@ -318,6 +330,20 @@
     overflow: hidden;
     position: relative;
   }
+  .out {
+    animation: bbb 0.5s;
+  }
+  @keyframes bbb {
+    0% {opacity: 1}
+    100% {opacity: 0}
+  }
+  .enter {
+    animation: aaa 0.5s;
+  }
+  @keyframes aaa {
+    0% {opacity: 0}
+    100% {opacity: 1}
+  }
   .btn-click:after {
     content: "";
     display: block;
@@ -383,5 +409,37 @@
     width: 3.75rem;
     border-radius: 0.2rem;
     border: none;
+  }
+  .btn-c {
+    width: 3.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0.44rem;
+  }
+  .energy-c {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 1rem;
+    border: 1px solid orange;
+    margin-top: 1rem;
+    background: url("https://fb.blackfish.cn/fb/t1/G1/M00/01/B3/CiAg21yCKY-IWAVJAAKh_sZNTqkAAGKoAAEOxMAAqIW525.jpg");
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position:left bottom;
+    animation-name: scan;
+    animation-duration: 7s;
+    animation-timing-function: ease;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-fill-mode: both;
+    animation-play-state: running;
+  }
+
+  @keyframes scan {
+    0% {background-position:0% bottom}
+    50% {background-size: auto 130%}
+    100% {background-position:100% bottom}
   }
 </style>
