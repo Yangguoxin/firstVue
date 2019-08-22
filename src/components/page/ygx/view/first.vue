@@ -56,8 +56,8 @@
 <script>
 
   let test = require('../js/module')
-  import * as xiaohong from '../js/test'
-  let newTest = () => require('../js/test')
+  import xiaohong from '../js/test'
+  let newTest = require('../js/test')
   import { preView } from '../js/preView'
   import fMixins from '../mixins/firstMixins'
   import ajax from '../../../../util/ajax/index'
@@ -182,7 +182,7 @@
     },
     created() {
       this.locationHandle()
-      console.log(newTest().default)
+      console.log(xiaohong)
       setTimeout(() => {
         // this.$messageBox.open({title: '你是大狼狗'})
         // setTimeout(() => {
@@ -196,9 +196,9 @@
           this.buttonFlag = false
         }, 500)
       }, 5000)
-      this.promise3().then(this.promise1).then(this.promise2).then((res) => {
-        console.log(res)
-      })
+      // this.promise3().then(this.promise1).then(this.promise2).then((res) => {
+      //   console.log(res)
+      // })
       loadingImg('https://ww3.sinaimg.cn/bmiddle/61e7f4aaly1g5hq7v8lf2j213l0m3kjl.jpg').then((res) => {
         this.imgUrl = res
       })

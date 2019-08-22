@@ -1828,3 +1828,32 @@ function* ta() {
 for (let item of ta()) {
   console.log(item)
 }
+
+let reg = /\D/g
+/**************正则判断****************/
+let reg = /[^A-Za-z0-9_]/g
+let str = 'B2 is the suite number.'
+str.match(reg)
+str.replace(reg, '_')
+
+
+/*************new实现*************/
+function myNew () {
+  let obj = new Object()
+  let fn = Array.prototype.shift.apply(arguments)
+  obj.__proto__ = fn.prototype
+  let ret = fn.apply(obj, arguments)
+  return typeof ret === 'object' ? ret : obj
+}
+
+function Person (name) {
+  this.name = name
+}
+
+Person.prototype.typeName = function () {
+  console.log(this.name)
+}
+
+let xiao = myNew(Person, '小明')
+let str = 'balanceDeductAmount'
+(str === 'discountAmount') || (str === 'balanceDeductAmount') ? '-' : ''
