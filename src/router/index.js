@@ -5,6 +5,7 @@ import {setMetaTitle} from '@/util'
 import ygx from '@/router/routes/ygx'
 import xhy from '@/router/routes/xhy'
 import submit from '@/router/routes/submit'
+import myVideo from '@/router/routes/myVideo'
 
 const base = '/myvue/'
 
@@ -36,6 +37,7 @@ const router = new Router({
         ...ygx,
         ...xhy,
         ...submit,
+        ...myVideo,
         // 注册业务路由 - end
         {
             path: '/*',

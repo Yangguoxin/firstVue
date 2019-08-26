@@ -1,10 +1,63 @@
 <template>
   <div>
+    <div>
+      <div>
+        <div class="skeleton-c">A</div>
+        <div style="width: 3.75rem; height: 1rem;"></div>
+      </div>
+      <div>
+        <div class="dt">C</div>
+        <div style="width: 3.75rem; height: 1rem;"></div>
+      </div>
+      <div>
+        <div class="dt">E</div>
+        <div style="width: 3.75rem; height: 1rem;"></div>
+      </div>
+      <div>
+        <div class="dt">E</div>
+        <div style="width: 3.75rem; height: 1rem;"></div>
+      </div>
+      <div>
+        <div class="dt">T</div>
+      </div>
+    </div>
+    <div>
+      <dl>
+        <div class="dt">A</div>
+        <dd>Andrew W.K.</dd>
+        <dd>Apparat</dd>
+        <dd>Arcade Fire</dd>
+        <dd>At The Drive-In</dd>
+        <dd>Aziz Ansari</dd>
+      </dl>
+      <dl>
+        <div class="dt">C</div>
+        <dd>Chromeo</dd>
+        <dd>Common</dd>
+        <dd>Converge</dd>
+        <dd>Crystal Castles</dd>
+        <dd>Cursive</dd>
+      </dl>
+      <dl>
+        <div class="dt">E</div>
+        <dd>Explosions In The Sky</dd>
+      </dl>
+      <dl>
+        <div class="dt">T</div>
+        <dd>Ted Leo & The Pharmacists</dd>
+        <dd>T-Pain</dd>
+        <dd>Thrice</dd>
+        <dd>TV On The Radio</dd>
+        <dd>Two Gallants</dd>
+      </dl>
+    </div>
     <transition name="fade">
       <div class="test">{{nickName}}</div>
     </transition>
     <!--skeleton测试-->
-    <div class="skeleton-c" action="http://www.baidu.com"></div>
+    <div>
+      <div class="skeleton-c" action="http://www.baidu.com"></div>
+    </div>
     <div class="btn-c">
       <button v-if="buttonFlag" class="btn-click" :class="animationCss" @click="routerTest">点击测试{{mixinRes}}</button>
     </div>
@@ -215,6 +268,7 @@
     height: 3rem;
   }
   .test{
+    z-index: 1000;
     width: 3.75rem;
     height: 3.75rem;
     background: #ffffff;
@@ -369,21 +423,9 @@
     width: 1rem;
     height: 0.4rem;
     background-color: darkorange;
-    position: relative;
-  }
-  .skeleton-c:before {
-    content: '';
-    width: 1rem;
-    height: 0.4rem;
-    background: black;
-    opacity: 0.5;
-  }
-  .skeleton-c:after {
-    content: '';
-    width: 1rem;
-    height: 0.4rem;
-    background: black;
-    opacity: 0.5;
+    position: sticky;
+    top: -1px;
+    z-index: 100;
   }
   .img-container {
     width: 1rem;
@@ -404,6 +446,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    position: sticky;
+    top: 0px;
+    z-index: 100;
   }
   .iframe-css {
     width: 3.75rem;
@@ -441,5 +486,40 @@
     0% {background-position:0% bottom}
     50% {background-size: auto 130%}
     100% {background-position:100% bottom}
+  }
+  * {
+    box-sizing: border-box;
+  }
+
+  .dl {
+  }
+
+  dl {
+    margin: 0;
+    padding: 24px 0 0 0;
+  }
+
+  .dt {
+    background: #B8C1C8;
+    border-bottom: 1px solid #989EA4;
+    border-top: 1px solid #717D85;
+    color: #FFF;
+    font: bold 18px/21px Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 2px 0 0 12px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: -1px;
+  }
+
+  dd {
+    font: bold 20px/45px Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0 0 0 12px;
+    white-space: nowrap;
+  }
+
+  dd + dd {
+    border-top: 1px solid #CCC
   }
 </style>
