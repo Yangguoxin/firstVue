@@ -1,4 +1,5 @@
 const SkeletonWebpackPlugin = require('vue-skeleton-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const path = require('path')
 // vue.config.js
 module.exports = {
@@ -63,7 +64,11 @@ module.exports = {
 
     hotOnly: false,
 
-    proxy: null
+    proxy: null,
+
+    hot: true,
+
+    disableHostCheck: true
   },
   configureWebpack: {
     plugins: [
@@ -75,6 +80,18 @@ module.exports = {
         },
         minimize: true,
         quiet: true
+      }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'server',
+        analyzerHost: '127.0.0.1',
+        analyzerPort: 8889,
+        reportFilename: 'report.html',
+        defaultSizes: 'parsed',
+        openAnalyzer: true,
+        generateStatsFile: false,
+        statsFilename: 'stats.json',
+        statsOptions: null,
+        logLevel: 'info'
       })
     ],
     externals: {

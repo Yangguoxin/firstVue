@@ -2,15 +2,21 @@
   <div>
     <video id="video" class="video-c"
            @click.stop="clickHandle"
-           playsinline
+           playsinline="true"
+           webkit-playsinline="true"
+           autoplay
            crossorigin="anonymous"
            preload="false"
+           muted
+           x5-video-player-type="h5"
+           x5-video-player-fullscreen="true"
            src="https://fb.blackfish.cn/fb/t1/YWI2M2NmMTgtYjY1Mi00MjA2LWFjMzktZWI0ZWY2Yjc3NDM5.mp4"></video>
     <div v-if="showPlayFlag" class="turnOff" @click.stop="clickHandle"></div>
   </div>
 </template>
 
 <script>
+  import wx from 'weixin-js-sdk'
   export default {
     name: 'myVideo',
     data() {
@@ -36,6 +42,18 @@
       video.addEventListener('ended', (res) => {
         this.showPlayFlag = true
       })
+      if (window.WeixinJSBridge) {
+        WeixinJSBridge.invoke('getNetworkType', {}, function (e) {
+          video.play()
+        }, false)
+      } else {
+        document.addEventListener("WeixinJSBridgeReady", function () {
+          WeixinJSBridge.invoke('getNetworkType', {}, function (e) {
+            video.play()
+          })
+        }, false)
+      }
+      video.play()
     }
   }
 </script>

@@ -19,6 +19,7 @@
       </div>
       <div>
         <div class="dt">T</div>
+        <div style="width: 3.75rem; height: 1rem;"></div>
       </div>
     </div>
     <div>
