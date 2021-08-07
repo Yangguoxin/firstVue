@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import './lib/directive'
 import messageBox from './components/baseUi/messageBox/index'
+import Toast from './components/baseUi/Toast/index'
 import Vconsole from 'vconsole'
 import BaiduMap from 'vue-baidu-map'
 
@@ -29,6 +30,7 @@ Vue.use(BaiduMap, {
   ak: 'HlQBObc4VDLpXaOtsuLI5ZaqU6p1TDay'
 })
 Vue.prototype.$messageBox = messageBox
+Vue.prototype.$Toast = Toast
 Vue.config.productionTip = false
 
 setTimeout(() => {

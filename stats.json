@@ -1,0 +1,15 @@
+
+> makeit@0.1.0 serve /Users/yangguoxin/Documents/MyProject/my_vue/makeIt
+> vue-cli-service serve
+
+ INFO  Starting development server...
+ DONE  Compiled successfully in 3328ms14:44:42
+
+
+  App running at:
+  - Local:   http://localhost:9051/myvue/ 
+  - Network: http://10.11.32.165:9051/myvue/
+
+  Note that the development build is not optimized.
+  To create a production build, run npm run build.
+

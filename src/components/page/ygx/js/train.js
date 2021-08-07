@@ -1182,3 +1182,1392 @@ function closer () {
   }
   return fn
 }
+
+/*********************判断数据是函数还是对象************************/
+let test = function () {
+  console.log('12232131')
+}
+let arr = []
+let obj = {}
+typeof arr
+arr.toString()
+obj.toString()
+
+/*************深拷贝******************/
+function deepCopy (obj) {
+  if (typeof obj !== 'object') {
+    return obj
+  }
+  let tmp = obj.toString() === '[object Object]' ? {} : []
+  for(let key in obj) {
+    tmp[key] = typeof obj[key] === 'object' ? deepCopy(obj[key]) : obj[key]
+  }
+  return tmp
+}
+/*******************深拷贝********************/
+function deepCopy (obj) {
+  if (typeof obj === 'object') {
+    let tmp = obj.toString() === '[object Object]' ? {} : []
+    for(let key in obj) {
+      tmp[key] = typeof obj[key] === 'string' ? obj[key] : deepCopy(obj[key])
+    }
+    return tmp
+  } else {
+    return obj
+  }
+}
+let url = `${MOD_ORDER_URL}/product/productDetail?productId=${productId}&bf_ai=${bf_ai}&hideNavigation=1&__bf_params=${encodeURIComponent(JSON.stringify({
+  token: 'aaaaaaaaaaaaa',
+  phoneNumber: 'bbbbbbbbbbbbb'
+}))}`
+/******************************************/
+function test () {
+  if ([]==false) {console.log('1111')}
+  if ({}==false) {console.log('2222')}
+  if ([]) {console.log('3333')}
+  if ([1]==[2]) {console.log('4444')}
+  [].slice.call(arguments, 0)
+  [].slice.apply(arguments, [0])
+  Array.slice.call(arguments, 0)
+  Array.from(arguments)
+  [...arguments]
+}
+if(JSON.stringify([1]) === JSON.stringify([1])){console.log(111111)}
+
+/************************************arguments*********************/
+function a () {
+  for (var i = 0; i < 5; i++) {
+    this.i = i
+    setTimeout((function () {
+      console.log(this.i)
+    }).bind({i: i}), 0)
+    console.log(this.i)
+  }
+}
+/***********************前端路由测试**************************/
+function urlHistry () {
+  console.log(window.location.href)
+  window.location.href = '../'
+}
+
+/******************对象中的函数执行和函数定义*******************/
+function callback(res) {
+  console.log('回调函数执行')
+}
+let name = `id_${(new Date()).getTime()}_${Math.random().toString().substr(2)}`
+window[name] = function (res) {
+  // 执行这个函数后，要销毁这个函数
+  window[name] = undefined
+  // 执行传入的的函数
+  callback && typeof callback === 'function' && callback(res)
+}
+
+/*******************apply使用********************/
+function test () {
+  console.log(this.a)
+  console.log([...arguments])
+}
+
+function fun () {
+  test.Myapply({a:1}, arguments)
+}
+
+/*****************apply实现********************/
+Function.prototype.Myapply = function (obj, arr) {
+  obj = obj || window
+  obj.fn = this
+  let res
+  if ([...arr].length < 0) {
+    res = obj.fn()
+  } else {
+    res = obj.fn(...arr)
+  }
+  delete obj.fn
+  return res
+}
+
+/***********实现深拷贝***************/
+function deepCopy (obj) {
+  if (typeof obj !== 'object') {
+    return obj
+  }
+  let tmpObj = obj.toString() === '[object Object]' ? {} : []
+  for (let key in obj) {
+    tmpObj[key] = typeof obj[key] === 'object' ? deepCopy(obj[key]) : obj[key]
+  }
+  return tmpObj
+}
+
+/********函数工厂********/
+function Mynew () {
+  let obj = new Object()
+  let fn = [].shift.call(arguments)
+  obj.__proto__ = fn.prototype
+  let res = fn.apply(obj, arguments)
+  return typeof res === 'object' ? res : obj
+}
+
+/*******bind*********/
+Function.prototype.Mybind = function () {
+  let fn = this
+  let obj = [].shift.call(arguments)
+  let args = [...arguments]
+  let ret = function () {
+    fn.apply(this instanceof ret ? this : obj, args.concat([...arguments]) )
+  }
+  return ret
+}
+
+let a = {
+  name: 'xiaxia',
+  fun: function () {
+    console.log(this.name)
+  }
+}
+
+/**************对象原型和原型链****************/
+function Person () {
+  this.a = '123'
+  this.b = '234'
+}
+Person.prototype.age = 123
+Person.prototype.fun = function () {
+  console.log(this.a, this.b, this.age)
+}
+
+let xiaomin = new Person()
+
+function Son () {
+  this.eye = 222
+  Person.apply(this, arguments)
+}
+
+Son.prototype = new Person()
+
+let xiaoxiao = new Son()
+
+/***************new实现*****************/
+function myNew () {
+  let fn = [].shift.call(arguments)
+  let obj = new Object()
+  obj.__proto__ = fn.prototype
+  let ret = fn.apply(obj, arguments)
+  return typeof ret === 'object' ? ret : obj
+}
+
+function a () {
+  for (var i = 0; i < 5; i++) {
+    this.i = i
+    setTimeout((function () {
+      console.log(this.i)
+    }).bind({i: i}), 0)
+    console.log(this.i)
+  }
+}
+
+/***********************单例模式实现***************************/
+var bindEvent = (function(){
+  function() {
+    document.body.addEventListener('click', function (e) {
+      console.log('1234')
+    }, false)
+  }
+})()
+var render = function(){
+    console.log( '开始渲染列表' )
+    bindEvent()
+}
+render()
+
+function singleFun (fn) {
+  var result = null
+  return function () {
+    if (result) {
+      return
+    }
+    result = fn.apply(this, arguments)
+  }
+}
+
+
+/**********************表单检验*************************/
+/*****算法类******/
+var calculate = {
+  add: function (value, msg) {
+    if (value === 1) {
+      return msg
+    }
+  },
+  name: function (value, name, msg) {
+    if (value < 10) {
+      return msg
+    }
+  }
+}
+
+function Valuate () {
+  this.cache = []
+}
+
+Valuate.prototype.add = function ( dom, value, msg) {
+  this.cache.push(function () {
+    let runNameArray = name.split(':')
+    let runName = runNameArray.shift()
+    runNameArray.unshift(value)
+    runNameArray.push(msg)
+    return calculate[runName].apply(dom, runNameArray)
+  })
+}
+
+/*****************************缓存代理*************************/
+var cachePorxy = (function () {
+  let cache = []
+  return function () {
+    let args = Array.prototype.join.call(arguments, ',')
+    if (cache[args]) {
+      return cache[args]
+    }
+    return cache[args] = multFun.apply(this, arguments)
+  }
+})()
+
+function multFun () {
+  let res = 1
+  for (var i = 1, value = arguments.length;i < value; i++) {
+    res = arguments[i] * res
+  }
+  return res
+}
+
+/**********************发布订阅模式***********************/
+
+var event = {
+  eventList: [],
+  listen: function (key, fn) {
+    if (!this.eventList[key]) {
+      this.eventList[key] = []
+    }
+    this.eventList[key].push(fn)
+  },
+  run: function () {
+    let key = Array.prototype.shift.call(arguments)
+    if (!this.eventList[key]) {
+      return
+    }
+    for (var i = 0, value; value = this.eventList[key][i++];) {
+      value.apply(this, arguments)
+    }
+  },
+  remove: function (key, fn) {
+    let fns = this.eventList[key]
+    if (!fns) {
+      return
+    }
+    if (!key) {
+      this.eventList && (this.eventList.length = 0)
+      return
+    }
+    for (var i = 0,l = fns.length; i < l-1; i++) {
+      if (fn === fns[i]) {
+        fns.splice(i, 1)
+      }
+    }
+  }
+}
+
+event.listen('tab', function (res) {
+  console.log(res)
+})
+
+event.run('tab', 123)
+
+/********************正则表达转换*********************/
+var event = (function () {
+  let eventList = []
+  let listen = function (key, fn) {
+    if (!event.eventList[key]) {
+      event.eventList[key] = []
+    }
+    event.eventList[key].push(fn)
+  }
+  let runEvent = function () {
+    let key = Array.prototype.shift.apply(arguments)
+    if (!event.eventList[key]) {
+      return
+    }
+    for (var i = 0, value; value = event.eventList[key][i++];) {
+      value.apply(this, arguments)
+    }
+  }
+  let remove = function (key, fn) {
+    if (!event.eventList[key]) {
+      return
+    }
+    if (!fn) {
+      event.eventList[key].length = 0
+    }
+    for (var i = 0, value; value = event.eventList[key][i++];) {
+      if (value === fn) {
+        event.eventList[key].splice(i, 1)
+      }
+    }
+  }
+  return {
+    listen: listen,
+    runEvent: runEvent,
+    remove: remove
+  }
+})()
+
+/*******************coffee OR tea********************/
+var Beverage = function () {
+
+}
+Beverage.prototype.boilWater = function () {
+  console.log('必须重写boilWater方法')
+}
+Beverage.prototype.braw = function () {
+  console.log('必须重写braw方法')
+}
+Beverage.prototype.pourInCup = function () {
+  console.log('必须重写pourInCup方法')
+}
+Beverage.prototype.addCondiments = function () {
+  console.log('必须重写addCondiments方法')
+}
+Beverage.prototype.do = function () {
+  this.boilWater()
+  this.braw()
+  this.pourInCup()
+  this.addCondiments()
+}
+
+function Coffee () {
+}
+Coffee.prototype = new Beverage()
+
+Coffee.prototype.boilWater = function () {
+  console.log('煮沸水')
+}
+
+Coffee.prototype.braw = function () {
+  console.log('放入咖啡')
+}
+
+Coffee.prototype.pourInCup = function () {
+  console.log('开水倒入杯中')
+}
+
+Coffee.prototype.addCondiments = function () {
+  console.log('加入牛奶和方糖')
+}
+
+/***************职责链模式*****************/
+function fun1 (a) {
+  console.log('进入我是函数1')
+  if (a > 10 && a <= 20) {
+    console.log('我是函数1，我处理了', a)
+    return a
+  }
+  console.log('我是函数1，我处理不了', a)
+  this.next(a)
+}
+
+function fun2 (a) {
+  console.log('进入我是函数2')
+  if (a > 20 && a <= 30) {
+    console.log('我是函数2，我处理了', a)
+    return a
+  }
+  setTimeout(() => {
+    this.next(a)
+  }, 2000)
+  console.log('我是函数2，我处理不了', a)
+}
+
+function fun3 (a) {
+  console.log('进入我是函数3')
+  if (a > 30 && a < 40) {
+    console.log('我是函数3，我处理了', a)
+    return a
+  }
+  console.log('我是函数3，我处理不了', a)
+}
+
+function Chain (fn) {
+  this.fn = fn
+  this.successFun = null
+}
+
+Chain.prototype.passRequest = function () {
+  let ret = this.fn.apply(this, arguments)
+  return ret
+}
+
+Chain.prototype.setNextSuccessor = function (nextFun) {
+  return this.successFun = nextFun
+}
+
+Chain.prototype.next = function () {
+  return this.successFun && this.successFun.passRequest.apply(this.successFun, arguments)
+}
+
+let testChain1 = new Chain(fun1)
+
+let testChain2 = new Chain(fun2)
+
+let testChain3 = new Chain(fun3)
+
+testChain1.setNextSuccessor(testChain2).setNextSuccessor(testChain3)
+
+/**********************泡泡堂************************/
+function Player (name, teamName) {
+  this.name = name
+  this.teamName = teamName
+  this.status = 'alive'
+}
+
+Player.prototype.win = function () {
+  console.log(this.name, 'win')
+}
+
+Player.prototype.lose = function () {
+  console.log(this.name, 'lose')
+}
+
+Player.prototype.die = function () {
+  this.status = 'dead'
+  playerDirector.reciveMessage('playerDead', this)
+}
+
+Player.prototype.remove = function () {
+  playerDirector.reciveMessage('removePlayer', this)
+}
+
+Player.prototype.changeTeam = function (newName) {
+  playerDirector.reciveMessage('changeTeam', this, newName)
+}
+
+function playerFactory (name, teamName) {
+  var newPlayer = new Player(name, teamName)
+  playerDirector.reciveMessage('addPlayer', newPlayer)
+  return newPlayer
+}
+
+var playerDirector = (function () {
+  var players = {}
+  var operations = {}
+  operations.addPlayer = function (player) {
+    var teamName = player.teamName
+    players[teamName] = players[teamName] || []
+    players[teamName].push(player)
+  }
+  operations.removePlayer = function (player) {
+    var teamName = player.teamName
+    players[teamName] = players[teamName] || []
+    for (var i = 0; i < players[teamName].length; i++) {
+      if (players[teamName][i] === player) {
+        players[teamName].splice(i, 1)
+      }
+    }
+  }
+  operations.changeTeam = function (player, newName) {
+    operations.removePlayer(player)
+    player.teamName = newName
+    operations.addPlayer(player)
+  }
+  operations.playerDead = function (player) {
+    var teamName = player.teamName
+    var teamPlayers = players[teamName]
+    var allDead = true
+    player.status = 'dead'
+    for (let i = 0; i < teamPlayers.length; i++) {
+      if (teamPlayers[i].status !== 'dead') {
+        allDead = false
+        break
+      }
+    }
+    if (allDead) {
+      for (let i = 0; i < teamPlayers.length; i++) {
+        teamPlayers[i].lose.apply(teamPlayers[i], arguments)
+      }
+      for (let i in players) {
+        for (let j = 0; j < players[i].length; j++) {
+          if (i !== teamName) {
+            players[i][j].win.apply(players[i][j], arguments)
+          }
+        }
+      }
+    }
+  }
+
+  var reciveMessage = function () {
+    let key = Array.prototype.shift.apply(arguments)
+    operations[key].apply(this, arguments)
+  }
+
+  return {
+    reciveMessage: reciveMessage
+  }
+})()
+
+var player1 = playerFactory('小明', 'red'),
+  player2 = playerFactory('小华', 'red'),
+  player3 = playerFactory('小蓝', 'blue'),
+  player4 = playerFactory('小松', 'blue')
+
+/**********************状态机模式*************************/
+/******先定义状态类********/
+
+function offStatus (light) {
+  this.light = light
+}
+
+offStatus.prototype.buttonPress = function () {
+  console.log('关灯状态')
+  this.light.setStatus(this.light.weakStatus)
+}
+
+function weakStatus (light) {
+  this.light = light
+}
+weakStatus.prototype.buttonPress = function () {
+  console.log('弱光状态')
+  this.light.setStatus(this.light.strongStatus)
+}
+
+function strongStatus (light) {
+  this.light = light
+}
+strongStatus.prototype.buttonPress = function () {
+  console.log('强光状态')
+  this.light.setStatus(this.light.superStatus)
+}
+function superStatus (light) {
+  this.light = light
+}
+superStatus.prototype.buttonPress = function () {
+  console.log('超级强光')
+  this.light.setStatus(this.light.offStatus)
+}
+
+function Light () {
+}
+
+Light.prototype.setStatus = function (status) {
+  this.currentStatus = status
+}
+
+Light.prototype.init = function () {
+  this.offStatus = new offStatus(this)
+  this.weakStatus = new weakStatus(this)
+  this.strongStatus = new strongStatus(this)
+  this.superStatus = new superStatus(this)
+  this.currentStatus = this.offStatus
+}
+
+Light.prototype.run = function () {
+  this.currentStatus.buttonPress()
+}
+
+/********************************正则************************************/
+
+let reg = new RegExp('(,\\s)', 'g')
+let str = '  apple, orange, cherry, peach.  '
+let count = 0
+reg.test(str)
+str.match(reg)
+str = str.replace(reg, function () {
+  count++
+  return count === 2 ? '8' : ','
+})
+let str = '  apple, orange, cherry, peach.  '
+str = str.replace(/(^\s+)|(\s+$)/, '')
+
+let str = '  apple, orange, cherry, peach.  '
+let count = 0
+str.match(/(,\s)/g)
+str = str.replace(/(,\s)/g, function () {
+  count++
+  return count === 2 ? '8' : ','
+})
+
+/******************正则对象的定义方式**********************/
+let str = ' abcd, sss, 333, 444  '
+str = str.replace(/(^\s{1,})|(\s{1,}$)/g, '')
+
+let str = ' abcd, sss, 333, 444  '
+let reg = new RegExp('(^\\s+)|(\\s+$)', 'g')
+str = str.replace(reg, '')
+
+let str = ' abcd, sss, 333, 444 '
+let reg = /(^\s+)|(\s+$)/g
+let reg1 = /(,\s)/g
+let count = 0
+let matches = str.matchAll(reg1)
+for (let item of matches) {
+  console.log(item)
+}
+
+console.log(matches)
+str = str.replace(reg, '').replace(reg1, function () {
+  count++
+  if (count >= 2) {
+    return '.'
+  }
+  return '||'
+})
+
+/****************yield*******************/
+function* ta() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+for (let item of ta()) {
+  console.log(item)
+}
+
+let reg = /\D/g
+/**************正则判断****************/
+let reg = /[^A-Za-z0-9_]/g
+let str = 'B2 is the suite number.'
+str.match(reg)
+str.replace(reg, '_')
+
+
+/*************new实现*************/
+function myNew () {
+  let obj = new Object()
+  let fn = Array.prototype.shift.apply(arguments)
+  obj.__proto__ = fn.prototype
+  let ret = fn.apply(obj, arguments)
+  return typeof ret === 'object' ? ret : obj
+}
+
+function Person (name) {
+  this.name = name
+}
+
+Person.prototype.typeName = function () {
+  console.log(this.name)
+}
+
+let xiao = myNew(Person, '小明')
+let str = 'balanceDeductAmount'
+(str === 'discountAmount') || (str === 'balanceDeductAmount') ? '-' : ''
+
+let a = {
+  a: 1,
+  b: 2,
+  c: [1, 2]
+}
+
+/***********十进制转换***********/
+let a = 100
+//转换2进制
+a.toString(2)
+//转换8进制
+a.toString(8)
+//转寒16进制
+a.toString(16)
+/**********其他进制转换为十进制************/
+//二进制转换10进制
+let a = 10101010
+parseInt(a, 2)
+//8进制转换为10进制
+let a = 2666
+parseInt(a, 2666)
+
+/***********对象************/
+function Person () {
+  this.name = '小明'
+  this.age = '10'
+}
+
+let xiao = new Person()
+/**********for*********/
+var num = 0
+outermost:
+for (var i=0; i < 10; i++) {
+  for (var j=0; j < 10; j++) { if (i == 5 && j == 5) { continue outermost;
+  }
+    num++; }
+}
+/********深拷贝function**********/
+let a = {
+  b: function () {
+    console.log()
+  }
+}
+
+function funDeep (obj) {
+  switch (typeof obj) {
+    case 'object':
+      let a = obj.toString() === '[object object]'? {} : []
+      for (var key in obj) {
+        a[key] = typeof obj[key] === 'object' || typeof obj[key] === 'function' ? funDeep(obj[key]) : obj[key]
+      }
+      return a
+    case 'function':
+      let b
+      let regExp = /function/
+      if (regExp.test(obj.toString())) {
+        eval(obj.toString().replace(regExp, 'function ccc'))
+        b = ccc
+      } else {
+        b = eval(obj.toString())
+      }
+      return b
+    default:
+      return obj
+  }
+}
+
+let fun = function () {
+  console.log(this.name)
+  console.log(this.name)
+}
+
+let obj = {
+  name: 123,
+  print: fun
+}
+
+function funDeep (obj) {
+  switch (typeof obj) {
+    case 'object':
+      let a = obj.toString() === '[object object]'? {} : []
+      for (var key in obj) {
+        a[key] = typeof obj[key] === 'object' || typeof obj[key] === 'function' ? funDeep(obj[key]) : obj[key]
+      }
+      return a
+    default:
+      return obj
+  }
+}
+const arrayList =
+arrayList.sort(function (a, b) {
+  return a - b
+})
+var items = new Set(arrayList)
+var arr2 = Array.from(items)
+/**********快速排序*********/
+function quickSort (arr) {
+  if (arr.length < 1) return arr
+  let base = arr.splice(0, 1)
+  let left = []
+  let right = []
+  for (let i = 0; i < arr.length; i++) {
+    if (base > arr[i]) {
+      left.push(arr[i])
+    } else {
+      right.push(arr[i])
+    }
+  }
+  return quickSort(left).concat(base, quickSort(right))
+}
+/**********获取整数对**************/
+const arrayList = [11, 20, 3, 10, 10, 3, 17, 13, 16, 14, 11, 19, 1, 29, 2, 30, 40]
+const sum = 100
+function compute (arrayList, sum) {
+  arrayList.sort(function (a, b) {
+    return a - b
+  })
+  let arr = new Set(arrayList)
+  arr = Array.from(arr)
+  let refindObj = getRefind(arrayList)
+  let left = 0
+  let right = arr.length - 1
+  let outPut = []
+  while (left < right) {
+    if (arr[left] + arr[right] < sum) {
+      left++
+    } else if (arr[left] + arr[right] > sum) {
+      right--
+    } else if (arr[left] + arr[right] === sum) {
+      let tmp = []
+      tmp[0] = arr[left]
+      tmp[1] = arr[right]
+      left++
+      right--
+      outPut.push(tmp)
+    }
+  }
+  for (let key in refindObj) {
+    if (2 * refindObj[key] === sum) {
+      outPut.push([refindObj[key], refindObj[key]])
+    }
+  }
+  console.log(outPut)
+  return outPut
+}
+/*******获取数组中的重复元素********/
+function getRefind (arr) {
+  if (arr.length <= 0) {
+    return {}
+  }
+  let obj = {}
+  let optPut = {}
+  for (let i = 0; i < arr.length; i++) {
+    if (obj[arr[i]]) {
+      optPut[i] = arr[i]
+    } else {
+      obj[arr[i]] = 1
+    }
+  }
+  return optPut
+}
+
+/********二分查找*********/
+const arrayList = [11, 20, 20, 10, 10, 3, 17, 13, 16, 14, 11, 19, 1, 29, 2, 30, 40]
+const sum = 40
+function compute (arrayList, sum) {
+  arrayList.sort(function (a, b) {
+    return a - b
+  })
+  let arr = new Set(arrayList)
+  arr = Array.from(arr)
+  let left = 0
+  let right = arr.length - 1
+  let outPut = []
+  while (left < right) {
+    let mid = parseInt((left + right)/2)
+    if (arr[mid] < sum) {
+      left = mid
+    } else if (arr[mid] > sum) {
+      right = mid
+    } else if (arr[mid] === sum) {
+      outPut.push(mid)
+      break
+    }
+  }
+  console.log(outPut)
+  return outPut
+}
+
+/*********快速排序**********/
+const arrayList = [11, 20, 3, 10, 10, 3, 17, 13, 16, 14, 11, 19, 1, 29, 2, 30, 40]
+function quickSort(arr) {
+  if (arr.length <= 1) { return arr }
+  let base = arr.splice(1,1)
+  let left = []
+  let right = []
+  for (let i = 0; i < arr.length; i++){
+    if (arr[i] >= base) {
+      right.push(arr[i])
+    } else {
+      left.push(arr[i])
+    }
+  }
+   return quickSort(left).concat(base, quickSort(right))
+}
+if (true) {
+  var a = 1
+}
+console.log(a)
+
+function a () {
+  Promise.resolve().then(()=>console.log(1));
+  console.log(2)
+}
+
+function b () {
+  Promise.resolve().then(()=>console.log(3));
+  console.log(4)
+}
+/*************按照输出来填函数*************/
+function repeat (func, times, wait = 1000) {
+  let i = 1
+  let intervalNum = 0
+  return function () {
+    if (times <= 0) {
+      return
+    }
+    func.apply(this, arguments)
+    intervalNum = setInterval(() => {
+      i++
+      if (i > times) {
+        clearInterval(intervalNum)
+        i = 1
+        return
+      }
+      func.apply(this, arguments)
+    }, wait)
+  }
+}
+
+/***********class的用法***************/
+class test {
+  constructor () {
+    this.name = 111
+  }
+  add() {
+    console.log(this.name)
+    this.name = this.name + 1
+  }
+}
+
+let a = new test()
+a.add()
+/*****************判断字符串的算法************/
+function testSubStr(haystack, needle) {
+  if (needle === '') {
+    return 0
+  }
+  if (!haystack || (haystack && haystack.length <= 0) ) { return -1 }
+  if (!needle || (needle && needle.length <= 0)) {
+    return -1
+  }
+  let letter = needle[0]
+  let length = needle.length
+  for (let i = 0, item = haystack[0]; i < haystack.length; i++, item = haystack[i]) {
+    if (item === letter) {
+      let count = 1
+      for (j = 1; j < length; j++) {
+        if (haystack[j+i] !== needle[j]) {
+          break
+        }
+        count ++
+      }
+      if (count === length) {
+        return i
+      }
+    }
+  }
+  return -1
+}
+let a = 'qweqweqweqewQWEqqqQWEwwwwwwwwddddsdsdadsajjjsdkaidajskaklallskdaksjdjaskhahahh'
+let b = 'hahahh'
+
+/********回文字符串**********/
+function recover (s) {
+  if (!s) {
+    return ''
+  }
+  let arr = s.split('')
+  let str = arr.reverse().join('')
+  let up = 0
+  let down = 0
+  if(s === str) {
+    return s
+  }
+  while(str[down]) {
+    if (s[up] === str[down]) {
+      up ++
+      down ++
+    } else {
+      down = down - up + 1
+      up = 0
+    }
+  }
+  return str.slice(0, down - up) + s
+}
+aabba
+
+abbaa
+
+function getBack (s) {
+  let arr = s.split('')
+  let str = arr.reverse().join('')
+  return str
+}
+var topKFrequent = function(nums, k) {
+  let hash = {}
+  nums.forEach(num=>{
+    hash[num]?hash[num]+=1:hash[num]=1
+  })
+  return Object.keys(hash).sort((key1,key2)=>hash[key2]-hash[key1]).slice(0,k)
+};
+
+/*************最长子字符串*****************/
+var lengthOfLongestSubstring = function(s) {
+  let right = 0
+  let str = ''
+  let max = 0
+  if(s.length === 0){
+    return 0
+  }
+  while(right < s.length){
+    let sindex = str.indexOf(s[right])
+    if(sindex !== -1){
+      if(max<str.length){
+        max = str.length
+      }
+      str = str.slice(sindex+1,str.length)
+    }
+    str += s[right]
+    right++
+  }
+  return Math.max(max ,str.length)
+}
+
+/************中位数***************/
+var findMedianSortedArrays = function(nums1, nums2) {
+  var newArr = nums1.concat(nums2)
+  newArr = newArr.sort(function (a, b) {
+    return a - b
+  })
+  console.log(newArr)
+  if (newArr.length % 2 === 0) {
+    return (newArr[newArr.length / 2 - 1] + newArr[newArr.length / 2]) / 2
+  } else {
+    return newArr[(newArr.length + 1)/2 - 1]
+  }
+}
+  let a = [1,1,1,1,1,1,1,1,1,1,4,4]
+  let b = [1,3,4,4,4,4,4,4,4,4,4]
+/***************最长回文子字符串*****************/
+var longestPalindrome = function(s) {
+  let str = '#' + s.replace(/\B/g,'#') + '#'
+  let maxLen = 0
+  let cutLeft = 0
+  for (let i = 0; i < str.length; i++) {
+    let left = i
+    let right = i
+    while(left >= 0 && right < str.length && str[right] === str[left]) {
+        left --
+        right ++
+    }
+    if (right - (left + 1) > maxLen) {
+      maxLen = right - (left + 1)
+      cutLeft = left + 1
+    }
+  }
+  return str.substr(cutLeft, maxLen).replace(/#/g, '')
+};
+/********************z字形排列*********************/
+var convert = function(s, numRows) {
+  let a = []
+  let n = 0
+  let i = 0
+  let j = 0
+  while (s[n]) {
+    if (!a[i]) {
+      a[i] = []
+    }
+    if (j % (numRows - 1) === 0) {
+      a[i][j] = s[n]
+      n ++
+    } else if ((j % (numRows - 1)) + i ===  numRows - 1) {
+      a[i][j] = s[n]
+      n ++
+    } else {
+      a[i][j] = ''
+    }
+    if (i === numRows - 1) {
+      j++
+      i = -1
+    }
+    i++
+  }
+  let str = ''
+  for (let i = 0; i < a.length; i++) {
+    for (let j =0; j < a[i].length; j++) {
+      str += a[i][j]
+
+    }
+  }
+  return str
+};
+/*************整数翻转************/
+var isPalindrome = function(x) {
+  if (x < 0) {
+    return false
+  }
+  let arr = []
+  let num = x
+  let i = 0
+  while (num > 0) {
+    arr[i] = num % 10
+    num = parseInt(num / 10)
+    i++
+  }
+  let bigNum = 0
+  for (let j = 0; j < arr.length; j++) {
+    bigNum += arr[j] * Math.pow(10, arr.length - j - 1)
+  }
+  console.log(bigNum)
+  if (bigNum === x) {
+    return true
+  }
+  return false
+};
+/****************盛水最多的容器********************/
+var maxArea = function(height) {
+  let maxRet = 0
+  for (let i = 0; i < height.length; i++) {
+    for(let j = i + 1; j < height.length; j++) {
+        let maxTmp = (j - i) * Math.min(height[i],height[j])
+        if (maxRet < maxTmp) {maxRet = maxTmp}
+    }
+  }
+  return maxRet
+};
+/**************获取所有的子字符串******************/
+function allSbuStr (s) {
+  for(let i = 0; i < s.length; i++) {
+    for(let j = i + 1; j < s.length + 1; j++) {
+      console.log(s.substring(i, j))
+    }
+  }
+}
+/*************冒泡排序*************/
+function upSort (s) {
+  for(let i = 0; i < s.length; i++) {
+    for(let j = i; j < s.length; j++) {
+      if (s[i] > s[j]) {
+        let tmp = s[j]
+        s[j] = s[i]
+        s[i] = tmp
+      }
+    }
+  }
+  console.log(s)
+}
+/**********链表结构***********/
+function ListNode (val) {
+  this.val = val
+  this.next = null
+}
+
+function createdNodeList (num) {
+  let tmpNum = num
+  let head = new ListNode()
+  let p = head
+  while(tmpNum > 0) {
+    p.val = tmpNum % 10
+    tmpNum = parseInt(tmpNum / 10)
+    q = new ListNode()
+    p.next = q
+    p = q
+  }
+  return head
+}
+
+function showNod (head) {
+  let p = head
+  while (p.next) {
+    console.log(p.val)
+    p = p.next
+  }
+}
+/*************非空************/
+var addTwoNumbers = function(l1, l2) {
+  let p1 = l1
+  let p2 = l2
+  let head = new ListNode()
+  let p = head
+  let out = 0
+  while(p1 || p2) {
+    let val = 0
+    let val1 = p1? p1.val : 0
+    let val2 = p2? p2.val : 0
+    let q = null
+    val = val1 + val2
+    if (out > 0) {
+      val++
+      out = 0
+    }
+    if (val >= 10) {
+      val = val % 10
+      out = 1
+    }
+    p1 = p1 ? p1.next : null
+    p2 = p2 ? p2.next : null
+    p.val = val
+    if ((p1 || p2)) {
+      q = new ListNode()
+      p.next = q
+      p = q
+    }
+    if ((!p1 && !p2 && out > 0)) {
+      q = new ListNode()
+      p.next = q
+      p = q
+      p.val = 1
+    }
+  }
+  return head
+};
+while(tmpNum > 0) {
+  p.val = tmpNum % 10
+  tmpNum = Math.floor(tmpNum / 10)
+  q = new ListNode()
+  p.next = q
+  p = q
+}
+return head
+
+
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+/*********
+ * 注意的点，一是超大数据，10的30次方，将链表转换为数字不实际
+ * 二是，使用两链表对应位数相加事，要考虑最后一位会出现进位的情况要做出判断
+ */
+var addTwoNumbers = function(l1, l2) {
+  let p1 = l1
+  let p2 = l2
+  let head = new ListNode()
+  let p = head
+  let out = 0
+  while(p1 || p2) {
+    let val = 0
+    let val1 = p1? p1.val : 0
+    let val2 = p2? p2.val : 0
+    let q = null
+    val = val1 + val2
+    if (out > 0) {
+      val++
+      out = 0
+    }
+    if (val >= 10) {
+      val = val % 10
+      out = 1
+    }
+    p1 = p1 ? p1.next : null
+    p2 = p2 ? p2.next : null
+    p.val = val
+    if ((p1 || p2)) {
+      q = new ListNode()
+      p.next = q
+      p = q
+    }
+    if ((!p1 && !p2 && out > 0)) {
+      q = new ListNode()
+      p.next = q
+      p = q
+      p.val = 1
+    }
+  }
+  return head
+};
+
+
+/********正则********/
+let reg = new RegExp('[0-9]')
+
+/*******sort排序*********/
+let arr = [{a:1,flag:false},{a:3,flag:false},{a:5,flag:true},{a:2,flag:true}]
+let newArr = arr.sort((a, b) => {
+  if (a.flag !== b.flag ) {
+    return b.flag - a.flag
+  } else if (a.flag === b.flag){
+    return b.a - a.a
+  } else {
+    return 0
+  }
+})
+/*************对象排序*********/
+let obj = {
+  a: 10,
+  b: 5,
+  c: 3,
+  d: 9,
+  e: 1,
+  f: 6
+}
+
+function objSort () {
+  return Object.keys(obj).sort((a, b) => {
+    return obj[a] - obj[b]
+  })
+}
+/************括号生成器**********/
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function(n) {
+  if (n === 1) {
+    return ['()']
+  }
+  let retArr = []
+  generateParenthesis(n - 1).forEach((item, index) => {
+    for(let i = 0; i < item.length; i++) {
+      retArr.push(item.slice(0, i) + '()' + item.slice(i, item.length))
+    }
+  })
+  let noRepeat = new Set(retArr)
+  retArr = Array.from(noRepeat)
+  return retArr
+};
+
+/*****************使用严格模式的函数******************/
+function strictFun () {
+  'use strict'
+  this.a = 1
+}
+
+/***********试试break语句************/
+function breakTest () {
+  let realArray = Array.from(arguments)
+  console.log(realArray)
+}
+
+/************n的阶乘************/
+function nFun (n) {
+  if (n === 1) {
+    return 1
+  }
+  return n + '->' + nFun(n - 1)
+}
+/*************两个数的和************/
+const arrayList = [3,3,10,11,22,30,37,37];
+const sum = 30;
+function compute(arrayList, sum) {
+  let map = {}
+  let ret = []
+  for(let i = 0; i < arrayList.length; i++) {
+    let target = sum - arrayList[i]
+    if (!map[arrayList[i]] && map[target]) {
+      let arr = [arrayList[i], target]
+      ret.push(arr)
+    }
+    map[arrayList[i]] ? map[arrayList[i]]++ : map[arrayList[i]] = 1
+  }
+  return ret
+}
+
+/**************链表的翻转*******************/
+
+100 / (2 + 1)
+
+(function headToTail () {
+  let str = 'abcdefg'
+  for(let i = 0; i < str.length; i++) {
+    for(let j = i + 1; j < str.length; j++) {
+      console.log(str.substring(i,j))
+    }
+  }
+})()
+
+/*******************截取字符串**************/
+function getSub () {
+  let str = '123456789'
+  let left = 0
+  while(left < str.length) {
+    console.log(str.substr(left, 3))
+    left += 3
+  }
+}
+
+/***********变啥坚实的**********/
+var pivotIndex = function(nums) {
+  return nums.reduce((a, b) => {
+    return a + b
+  })
+}
