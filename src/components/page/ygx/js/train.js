@@ -1857,3 +1857,717 @@ Person.prototype.typeName = function () {
 let xiao = myNew(Person, '小明')
 let str = 'balanceDeductAmount'
 (str === 'discountAmount') || (str === 'balanceDeductAmount') ? '-' : ''
+
+let a = {
+  a: 1,
+  b: 2,
+  c: [1, 2]
+}
+
+/***********十进制转换***********/
+let a = 100
+//转换2进制
+a.toString(2)
+//转换8进制
+a.toString(8)
+//转寒16进制
+a.toString(16)
+/**********其他进制转换为十进制************/
+//二进制转换10进制
+let a = 10101010
+parseInt(a, 2)
+//8进制转换为10进制
+let a = 2666
+parseInt(a, 2666)
+
+/***********对象************/
+function Person () {
+  this.name = '小明'
+  this.age = '10'
+}
+
+let xiao = new Person()
+/**********for*********/
+var num = 0
+outermost:
+for (var i=0; i < 10; i++) {
+  for (var j=0; j < 10; j++) { if (i == 5 && j == 5) { continue outermost;
+  }
+    num++; }
+}
+/********深拷贝function**********/
+let a = {
+  b: function () {
+    console.log()
+  }
+}
+
+function funDeep (obj) {
+  switch (typeof obj) {
+    case 'object':
+      let a = obj.toString() === '[object object]'? {} : []
+      for (var key in obj) {
+        a[key] = typeof obj[key] === 'object' || typeof obj[key] === 'function' ? funDeep(obj[key]) : obj[key]
+      }
+      return a
+    case 'function':
+      let b
+      let regExp = /function/
+      if (regExp.test(obj.toString())) {
+        eval(obj.toString().replace(regExp, 'function ccc'))
+        b = ccc
+      } else {
+        b = eval(obj.toString())
+      }
+      return b
+    default:
+      return obj
+  }
+}
+
+let fun = function () {
+  console.log(this.name)
+  console.log(this.name)
+}
+
+let obj = {
+  name: 123,
+  print: fun
+}
+
+function funDeep (obj) {
+  switch (typeof obj) {
+    case 'object':
+      let a = obj.toString() === '[object object]'? {} : []
+      for (var key in obj) {
+        a[key] = typeof obj[key] === 'object' || typeof obj[key] === 'function' ? funDeep(obj[key]) : obj[key]
+      }
+      return a
+    default:
+      return obj
+  }
+}
+const arrayList =
+arrayList.sort(function (a, b) {
+  return a - b
+})
+var items = new Set(arrayList)
+var arr2 = Array.from(items)
+/**********快速排序*********/
+function quickSort (arr) {
+  if (arr.length < 1) return arr
+  let base = arr.splice(0, 1)
+  let left = []
+  let right = []
+  for (let i = 0; i < arr.length; i++) {
+    if (base > arr[i]) {
+      left.push(arr[i])
+    } else {
+      right.push(arr[i])
+    }
+  }
+  return quickSort(left).concat(base, quickSort(right))
+}
+/**********获取整数对**************/
+const arrayList = [11, 20, 3, 10, 10, 3, 17, 13, 16, 14, 11, 19, 1, 29, 2, 30, 40]
+const sum = 100
+function compute (arrayList, sum) {
+  arrayList.sort(function (a, b) {
+    return a - b
+  })
+  let arr = new Set(arrayList)
+  arr = Array.from(arr)
+  let refindObj = getRefind(arrayList)
+  let left = 0
+  let right = arr.length - 1
+  let outPut = []
+  while (left < right) {
+    if (arr[left] + arr[right] < sum) {
+      left++
+    } else if (arr[left] + arr[right] > sum) {
+      right--
+    } else if (arr[left] + arr[right] === sum) {
+      let tmp = []
+      tmp[0] = arr[left]
+      tmp[1] = arr[right]
+      left++
+      right--
+      outPut.push(tmp)
+    }
+  }
+  for (let key in refindObj) {
+    if (2 * refindObj[key] === sum) {
+      outPut.push([refindObj[key], refindObj[key]])
+    }
+  }
+  console.log(outPut)
+  return outPut
+}
+/*******获取数组中的重复元素********/
+function getRefind (arr) {
+  if (arr.length <= 0) {
+    return {}
+  }
+  let obj = {}
+  let optPut = {}
+  for (let i = 0; i < arr.length; i++) {
+    if (obj[arr[i]]) {
+      optPut[i] = arr[i]
+    } else {
+      obj[arr[i]] = 1
+    }
+  }
+  return optPut
+}
+
+/********二分查找*********/
+const arrayList = [11, 20, 20, 10, 10, 3, 17, 13, 16, 14, 11, 19, 1, 29, 2, 30, 40]
+const sum = 40
+function compute (arrayList, sum) {
+  arrayList.sort(function (a, b) {
+    return a - b
+  })
+  let arr = new Set(arrayList)
+  arr = Array.from(arr)
+  let left = 0
+  let right = arr.length - 1
+  let outPut = []
+  while (left < right) {
+    let mid = parseInt((left + right)/2)
+    if (arr[mid] < sum) {
+      left = mid
+    } else if (arr[mid] > sum) {
+      right = mid
+    } else if (arr[mid] === sum) {
+      outPut.push(mid)
+      break
+    }
+  }
+  console.log(outPut)
+  return outPut
+}
+
+/*********快速排序**********/
+const arrayList = [11, 20, 3, 10, 10, 3, 17, 13, 16, 14, 11, 19, 1, 29, 2, 30, 40]
+function quickSort(arr) {
+  if (arr.length <= 1) { return arr }
+  let base = arr.splice(1,1)
+  let left = []
+  let right = []
+  for (let i = 0; i < arr.length; i++){
+    if (arr[i] >= base) {
+      right.push(arr[i])
+    } else {
+      left.push(arr[i])
+    }
+  }
+   return quickSort(left).concat(base, quickSort(right))
+}
+if (true) {
+  var a = 1
+}
+console.log(a)
+
+function a () {
+  Promise.resolve().then(()=>console.log(1));
+  console.log(2)
+}
+
+function b () {
+  Promise.resolve().then(()=>console.log(3));
+  console.log(4)
+}
+/*************按照输出来填函数*************/
+function repeat (func, times, wait = 1000) {
+  let i = 1
+  let intervalNum = 0
+  return function () {
+    if (times <= 0) {
+      return
+    }
+    func.apply(this, arguments)
+    intervalNum = setInterval(() => {
+      i++
+      if (i > times) {
+        clearInterval(intervalNum)
+        i = 1
+        return
+      }
+      func.apply(this, arguments)
+    }, wait)
+  }
+}
+
+/***********class的用法***************/
+class test {
+  constructor () {
+    this.name = 111
+  }
+  add() {
+    console.log(this.name)
+    this.name = this.name + 1
+  }
+}
+
+let a = new test()
+a.add()
+/*****************判断字符串的算法************/
+function testSubStr(haystack, needle) {
+  if (needle === '') {
+    return 0
+  }
+  if (!haystack || (haystack && haystack.length <= 0) ) { return -1 }
+  if (!needle || (needle && needle.length <= 0)) {
+    return -1
+  }
+  let letter = needle[0]
+  let length = needle.length
+  for (let i = 0, item = haystack[0]; i < haystack.length; i++, item = haystack[i]) {
+    if (item === letter) {
+      let count = 1
+      for (j = 1; j < length; j++) {
+        if (haystack[j+i] !== needle[j]) {
+          break
+        }
+        count ++
+      }
+      if (count === length) {
+        return i
+      }
+    }
+  }
+  return -1
+}
+let a = 'qweqweqweqewQWEqqqQWEwwwwwwwwddddsdsdadsajjjsdkaidajskaklallskdaksjdjaskhahahh'
+let b = 'hahahh'
+
+/********回文字符串**********/
+function recover (s) {
+  if (!s) {
+    return ''
+  }
+  let arr = s.split('')
+  let str = arr.reverse().join('')
+  let up = 0
+  let down = 0
+  if(s === str) {
+    return s
+  }
+  while(str[down]) {
+    if (s[up] === str[down]) {
+      up ++
+      down ++
+    } else {
+      down = down - up + 1
+      up = 0
+    }
+  }
+  return str.slice(0, down - up) + s
+}
+aabba
+
+abbaa
+
+function getBack (s) {
+  let arr = s.split('')
+  let str = arr.reverse().join('')
+  return str
+}
+var topKFrequent = function(nums, k) {
+  let hash = {}
+  nums.forEach(num=>{
+    hash[num]?hash[num]+=1:hash[num]=1
+  })
+  return Object.keys(hash).sort((key1,key2)=>hash[key2]-hash[key1]).slice(0,k)
+};
+
+/*************最长子字符串*****************/
+var lengthOfLongestSubstring = function(s) {
+  let right = 0
+  let str = ''
+  let max = 0
+  if(s.length === 0){
+    return 0
+  }
+  while(right < s.length){
+    let sindex = str.indexOf(s[right])
+    if(sindex !== -1){
+      if(max<str.length){
+        max = str.length
+      }
+      str = str.slice(sindex+1,str.length)
+    }
+    str += s[right]
+    right++
+  }
+  return Math.max(max ,str.length)
+}
+
+/************中位数***************/
+var findMedianSortedArrays = function(nums1, nums2) {
+  var newArr = nums1.concat(nums2)
+  newArr = newArr.sort(function (a, b) {
+    return a - b
+  })
+  console.log(newArr)
+  if (newArr.length % 2 === 0) {
+    return (newArr[newArr.length / 2 - 1] + newArr[newArr.length / 2]) / 2
+  } else {
+    return newArr[(newArr.length + 1)/2 - 1]
+  }
+}
+  let a = [1,1,1,1,1,1,1,1,1,1,4,4]
+  let b = [1,3,4,4,4,4,4,4,4,4,4]
+/***************最长回文子字符串*****************/
+var longestPalindrome = function(s) {
+  let str = '#' + s.replace(/\B/g,'#') + '#'
+  let maxLen = 0
+  let cutLeft = 0
+  for (let i = 0; i < str.length; i++) {
+    let left = i
+    let right = i
+    while(left >= 0 && right < str.length && str[right] === str[left]) {
+        left --
+        right ++
+    }
+    if (right - (left + 1) > maxLen) {
+      maxLen = right - (left + 1)
+      cutLeft = left + 1
+    }
+  }
+  return str.substr(cutLeft, maxLen).replace(/#/g, '')
+};
+/********************z字形排列*********************/
+var convert = function(s, numRows) {
+  let a = []
+  let n = 0
+  let i = 0
+  let j = 0
+  while (s[n]) {
+    if (!a[i]) {
+      a[i] = []
+    }
+    if (j % (numRows - 1) === 0) {
+      a[i][j] = s[n]
+      n ++
+    } else if ((j % (numRows - 1)) + i ===  numRows - 1) {
+      a[i][j] = s[n]
+      n ++
+    } else {
+      a[i][j] = ''
+    }
+    if (i === numRows - 1) {
+      j++
+      i = -1
+    }
+    i++
+  }
+  let str = ''
+  for (let i = 0; i < a.length; i++) {
+    for (let j =0; j < a[i].length; j++) {
+      str += a[i][j]
+
+    }
+  }
+  return str
+};
+/*************整数翻转************/
+var isPalindrome = function(x) {
+  if (x < 0) {
+    return false
+  }
+  let arr = []
+  let num = x
+  let i = 0
+  while (num > 0) {
+    arr[i] = num % 10
+    num = parseInt(num / 10)
+    i++
+  }
+  let bigNum = 0
+  for (let j = 0; j < arr.length; j++) {
+    bigNum += arr[j] * Math.pow(10, arr.length - j - 1)
+  }
+  console.log(bigNum)
+  if (bigNum === x) {
+    return true
+  }
+  return false
+};
+/****************盛水最多的容器********************/
+var maxArea = function(height) {
+  let maxRet = 0
+  for (let i = 0; i < height.length; i++) {
+    for(let j = i + 1; j < height.length; j++) {
+        let maxTmp = (j - i) * Math.min(height[i],height[j])
+        if (maxRet < maxTmp) {maxRet = maxTmp}
+    }
+  }
+  return maxRet
+};
+/**************获取所有的子字符串******************/
+function allSbuStr (s) {
+  for(let i = 0; i < s.length; i++) {
+    for(let j = i + 1; j < s.length + 1; j++) {
+      console.log(s.substring(i, j))
+    }
+  }
+}
+/*************冒泡排序*************/
+function upSort (s) {
+  for(let i = 0; i < s.length; i++) {
+    for(let j = i; j < s.length; j++) {
+      if (s[i] > s[j]) {
+        let tmp = s[j]
+        s[j] = s[i]
+        s[i] = tmp
+      }
+    }
+  }
+  console.log(s)
+}
+/**********链表结构***********/
+function ListNode (val) {
+  this.val = val
+  this.next = null
+}
+
+function createdNodeList (num) {
+  let tmpNum = num
+  let head = new ListNode()
+  let p = head
+  while(tmpNum > 0) {
+    p.val = tmpNum % 10
+    tmpNum = parseInt(tmpNum / 10)
+    q = new ListNode()
+    p.next = q
+    p = q
+  }
+  return head
+}
+
+function showNod (head) {
+  let p = head
+  while (p.next) {
+    console.log(p.val)
+    p = p.next
+  }
+}
+/*************非空************/
+var addTwoNumbers = function(l1, l2) {
+  let p1 = l1
+  let p2 = l2
+  let head = new ListNode()
+  let p = head
+  let out = 0
+  while(p1 || p2) {
+    let val = 0
+    let val1 = p1? p1.val : 0
+    let val2 = p2? p2.val : 0
+    let q = null
+    val = val1 + val2
+    if (out > 0) {
+      val++
+      out = 0
+    }
+    if (val >= 10) {
+      val = val % 10
+      out = 1
+    }
+    p1 = p1 ? p1.next : null
+    p2 = p2 ? p2.next : null
+    p.val = val
+    if ((p1 || p2)) {
+      q = new ListNode()
+      p.next = q
+      p = q
+    }
+    if ((!p1 && !p2 && out > 0)) {
+      q = new ListNode()
+      p.next = q
+      p = q
+      p.val = 1
+    }
+  }
+  return head
+};
+while(tmpNum > 0) {
+  p.val = tmpNum % 10
+  tmpNum = Math.floor(tmpNum / 10)
+  q = new ListNode()
+  p.next = q
+  p = q
+}
+return head
+
+
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+/*********
+ * 注意的点，一是超大数据，10的30次方，将链表转换为数字不实际
+ * 二是，使用两链表对应位数相加事，要考虑最后一位会出现进位的情况要做出判断
+ */
+var addTwoNumbers = function(l1, l2) {
+  let p1 = l1
+  let p2 = l2
+  let head = new ListNode()
+  let p = head
+  let out = 0
+  while(p1 || p2) {
+    let val = 0
+    let val1 = p1? p1.val : 0
+    let val2 = p2? p2.val : 0
+    let q = null
+    val = val1 + val2
+    if (out > 0) {
+      val++
+      out = 0
+    }
+    if (val >= 10) {
+      val = val % 10
+      out = 1
+    }
+    p1 = p1 ? p1.next : null
+    p2 = p2 ? p2.next : null
+    p.val = val
+    if ((p1 || p2)) {
+      q = new ListNode()
+      p.next = q
+      p = q
+    }
+    if ((!p1 && !p2 && out > 0)) {
+      q = new ListNode()
+      p.next = q
+      p = q
+      p.val = 1
+    }
+  }
+  return head
+};
+
+
+/********正则********/
+let reg = new RegExp('[0-9]')
+
+/*******sort排序*********/
+let arr = [{a:1,flag:false},{a:3,flag:false},{a:5,flag:true},{a:2,flag:true}]
+let newArr = arr.sort((a, b) => {
+  if (a.flag !== b.flag ) {
+    return b.flag - a.flag
+  } else if (a.flag === b.flag){
+    return b.a - a.a
+  } else {
+    return 0
+  }
+})
+/*************对象排序*********/
+let obj = {
+  a: 10,
+  b: 5,
+  c: 3,
+  d: 9,
+  e: 1,
+  f: 6
+}
+
+function objSort () {
+  return Object.keys(obj).sort((a, b) => {
+    return obj[a] - obj[b]
+  })
+}
+/************括号生成器**********/
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function(n) {
+  if (n === 1) {
+    return ['()']
+  }
+  let retArr = []
+  generateParenthesis(n - 1).forEach((item, index) => {
+    for(let i = 0; i < item.length; i++) {
+      retArr.push(item.slice(0, i) + '()' + item.slice(i, item.length))
+    }
+  })
+  let noRepeat = new Set(retArr)
+  retArr = Array.from(noRepeat)
+  return retArr
+};
+
+/*****************使用严格模式的函数******************/
+function strictFun () {
+  'use strict'
+  this.a = 1
+}
+
+/***********试试break语句************/
+function breakTest () {
+  let realArray = Array.from(arguments)
+  console.log(realArray)
+}
+
+/************n的阶乘************/
+function nFun (n) {
+  if (n === 1) {
+    return 1
+  }
+  return n + '->' + nFun(n - 1)
+}
+/*************两个数的和************/
+const arrayList = [3,3,10,11,22,30,37,37];
+const sum = 30;
+function compute(arrayList, sum) {
+  let map = {}
+  let ret = []
+  for(let i = 0; i < arrayList.length; i++) {
+    let target = sum - arrayList[i]
+    if (!map[arrayList[i]] && map[target]) {
+      let arr = [arrayList[i], target]
+      ret.push(arr)
+    }
+    map[arrayList[i]] ? map[arrayList[i]]++ : map[arrayList[i]] = 1
+  }
+  return ret
+}
+
+/**************链表的翻转*******************/
+
+100 / (2 + 1)
+
+(function headToTail () {
+  let str = 'abcdefg'
+  for(let i = 0; i < str.length; i++) {
+    for(let j = i + 1; j < str.length; j++) {
+      console.log(str.substring(i,j))
+    }
+  }
+})()
+
+/*******************截取字符串**************/
+function getSub () {
+  let str = '123456789'
+  let left = 0
+  while(left < str.length) {
+    console.log(str.substr(left, 3))
+    left += 3
+  }
+}
+
+/***********变啥坚实的**********/
+var pivotIndex = function(nums) {
+  return nums.reduce((a, b) => {
+    return a + b
+  })
+}

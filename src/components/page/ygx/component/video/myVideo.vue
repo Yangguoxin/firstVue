@@ -10,6 +10,8 @@
            muted
            x5-video-player-type="h5"
            x5-video-player-fullscreen="true"
+           x-webkit-airplay="allow"
+           x5-video-orientation="portraint"
            src="https://fb.blackfish.cn/fb/t1/YWI2M2NmMTgtYjY1Mi00MjA2LWFjMzktZWI0ZWY2Yjc3NDM5.mp4"></video>
     <div v-if="showPlayFlag" class="turnOff" @click.stop="clickHandle"></div>
   </div>

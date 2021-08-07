@@ -104,6 +104,37 @@
       <bm-label v-if="positionL.lat" content="我" :position="positionL" :labelStyle="{color: 'red', fontSize : '24px'}" title="Hover me"/>
     </baidu-map>
     <div class="energy-c"></div>
+    <div class="position">
+      <div class="relative">
+        <div class="absolute"></div>
+      </div>
+    </div>
+    <input type="file"/>
+    <div class="test-container">一闪一闪</div>
+    <!--背景动画-->
+    <div class="bg-action"></div>
+    <!--背景进度条-->
+    <div class="progress-c">
+      <div class="bg-progress" :style="progressWidth"></div>
+    </div>
+    <!--按钮进度条按钮-->
+    <div class="bg-btn" @click="proHandle">点击我</div>
+    <!--优惠券-->
+    <div class="coupon"></div>
+    <!--伪元素测试-->
+    <div class="virtual-c">
+      <div class="virtual-item" >哈哈</div>
+      <div >哈哈</div>
+      <div class="virtual-item" >哈哈</div>
+      <div >哈哈</div>
+      <div >哈哈</div>
+      <div class="virtual-item" >哈哈</div>
+      <div class="virtual-item" >哈哈</div>
+      <div class="virtual-item" >哈哈</div>
+      <div >哈哈</div>
+      <div class="virtual-item" >哈哈</div>
+      <div class="virtual-item" >哈哈</div>
+    </div>
   </div>
 </template>
 
@@ -130,10 +161,22 @@
         imgUrl: '',
         testEnter: '1232131<br>llllllsdadasldaldla',
         buttonFlag: false,
-        animationCss: 'enter'
+        animationCss: 'enter',
+        progressWidth:  null
       }
     },
     methods: {
+      proHandle () {
+        if (this.progressWidth.width === '10%') {
+          this.progressWidth = {
+            width: '100%'
+          }
+          return
+        }
+        this.progressWidth = {
+          width: '10%'
+        }
+      },
       routerTest () {
         this.$Toast.open({text: '我不是默认文字'})
         this.test()
@@ -243,6 +286,9 @@
         //   this.$messageBox.close()
         // }, 2000)
         this.buttonFlag = true
+        this.progressWidth = {
+          width: '70%'
+        }
       }, 3000)
       setTimeout(() => {
         this.animationCss = 'out'
@@ -264,6 +310,22 @@
 </script>
 
 <style scoped>
+  .bg-action {
+    width: 3.75rem;
+    height: 3.75rem;
+    background: rgb(194, 207, 214);
+    background-image: linear-gradient(90deg,rgba(255, 255, 255, 0.15) 25%, transparent 25%);
+    background-size: 300vw 300vw;
+    animation: skeleton-stripes 1s linear infinite;
+  }
+  @keyframes skeleton-stripes {
+    from {
+      background-position: 0 0 ;
+    }
+    to {
+      background-position: 300vw 0;
+    }
+  }
   .bm-view {
     width: 3.75rem;
     height: 3rem;
@@ -522,5 +584,116 @@
 
   dd + dd {
     border-top: 1px solid #CCC
+  }
+
+  .position {
+    width: 3.75rem;
+    height: 3.75rem;
+    background-color: darkorange;
+  }
+  .relative {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    background-color: #f6f6f6;
+  }
+  .absolute {
+    position: absolute;
+    bottom:0rem;
+    right: 0rem;
+    width: 1rem;
+    height: 1rem;
+    background: black;
+  }
+  .test-container{
+    position: relative;
+    width: 3.75rem;
+    height: 3.75rem;
+    background: red;
+    animation: 2s linear 0s infinite alternate flash;
+  }
+  .move-c{
+    width: 0.1rem;
+    height: 100%;
+    position: absolute;
+    left: -0.2rem;
+    top: 0;
+    opacity: 0.3;
+    background-image: linear-gradient(to right,
+    rgba(0, 0, 0, .9) 25%,
+    rgba(0, 0, 0, .1) 50%,
+    rgba(0, 0, 0, .9) 75%);
+    animation: 2s linear 0s infinite move;
+  }
+
+  @keyframes flash{
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.5;
+    }
+  }
+
+  .bg-progress {
+    width: 0rem;
+    height: 0.3rem;
+    border-radius: 0.3rem;
+    background: url("https://fb.blackfish.cn/fb/t1/G1/M00/01/B3/CiAg21yCKY-IWAVJAAKh_sZNTqkAAGKoAAEOxMAAqIW525.jpg");
+    background-size: auto 100%;
+    background-repeat: repeat;
+    background-position:left bottom;
+    transition: width 1s ease-in-out;
+  }
+  .progress-c {
+    width: 3.55rem;
+    height: 0.3rem;
+    border-radius: 0.4rem;
+    border: 1px solid orange;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+  }
+  .bg-btn {
+    width: 1rem;
+    height: 0.3rem;
+    color: white;
+    background: darkorange;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .coupon {
+    margin-bottom: 0.09rem;
+    width: 3.51rem;
+    height: 0.82rem;
+    box-sizing: border-box;
+    padding: 0rem 0.15rem 0rem 0rem;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 0.04rem;
+    flex-shrink: 0;
+    background-image: url("../img/coupon_use_bg.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+  .virtual-c {
+    width: 3.75rem;
+    height: auto;
+    background: orange;
+    box-sizing: border-box;
+    border: none;
+  }
+  .virtual-item {
+    width: 3.75rem;
+    height: 0.3rem;
+    background: white;
+    margin-bottom: 0.1rem;
+  }
+  .virtual-item:last-child {
+    background: pink;
   }
 </style>
